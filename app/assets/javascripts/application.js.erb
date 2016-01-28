@@ -1,0 +1,51 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file.
+//
+// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+//= require jquery
+//= require jquery_ujs
+
+//= require_tree .
+
+$(document).ready(function (){
+    function initialize() {
+    	var myLatlng = new google.maps.LatLng(40.501016,25.5292409);
+      var mapOptions = {
+	      center: myLatlng,
+	      zoom: 18,
+	      scrollwheel: false,
+	      mapTypeId: google.maps.MapTypeId.HYBRID
+	      
+      };
+        
+      var map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);    
+
+      var image = "<%= asset_path 'rotundaicon.jpg' %>"
+
+      var marker = new google.maps.Marker({
+      	position: myLatlng,
+      	map:map,
+      	title: 'Rotunda of Arsinoe',
+      	icon: image,
+      	animation: google.maps.Animation.DROP
+      });
+
+      var contentString = '<h2>Sanctuary of the Great Gods</h2>' + "<p> This is a freaking amazing ancient sanctuary, home of a sweet mystery cult to 'the Great Gods'</p>";
+      var infowindow = new google.maps.InfoWindow({ content: contentString});
+
+      google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);
+      });
+    }
+      
+    google.maps.event.addDomListener(window, 'load', initialize);
+});
+
